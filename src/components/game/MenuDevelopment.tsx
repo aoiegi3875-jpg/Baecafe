@@ -28,10 +28,6 @@ export function MenuDevelopment() {
     if (selectedIngredients.includes(id)) {
       setSelectedIngredients(selectedIngredients.filter(i => i !== id));
     } else {
-      if (selectedIngredients.length >= 3) {
-        toast.error('具材は3つまでしか選べません');
-        return;
-      }
       setSelectedIngredients([...selectedIngredients, id]);
     }
   };
@@ -176,7 +172,7 @@ export function MenuDevelopment() {
             </div>
 
             <div className="space-y-3">
-              <Label className="text-base font-semibold">具材カード（最大3つ）</Label>
+              <Label className="text-base font-semibold">具材カード（複数選択可）</Label>
               <div className="flex flex-wrap gap-2">
                 {unlockedIngredients.map(ingId => {
                   const ingInfo = INGREDIENTS[ingId];
