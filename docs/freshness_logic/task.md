@@ -1,0 +1,4 @@
+- [x] 実装計画の承認待ち
+- [x] `Showcase.tsx` の `handleOperate` メソッド内の `freshness` 計算にカテゴリごとの減少率を適用する
+- [x] `Showcase.tsx` の UI（カード表示部分）の「鮮度」表示を計算後の `freshness` ベースに改修する
+- [x] ユーザーに設計概要とテスト起動方法を伝える

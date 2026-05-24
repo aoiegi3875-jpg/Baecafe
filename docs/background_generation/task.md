@@ -1,0 +1,4 @@
+- [x] `src/store/gameStore.ts` に `isGeneratingMenu` と `latestGeneratedMenu` を追加
+- [x] `src/components/game/TopBar.tsx` にAI生成中のローディングインジケーターを追加
+- [x] `src/components/game/MenuDevelopment.tsx` をローカルステートからグローバルステートに変更
+- [x] `src/app/page.tsx` で初期マウント時に `isGeneratingMenu` をリセットする処理を追加

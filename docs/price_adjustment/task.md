@@ -1,0 +1,5 @@
+- [x] 実装計画の承認待ち
+- [x] `src/store/gameStore.ts` の `ActiveMenu` 型を拡張し、`addToShowcase` にカスタム価格を渡せるようにする
+- [x] `src/components/game/Showcase.tsx` 内の `handleOperate`（売上計算ロジック）に価格調整（priceRatio）による影響を実装する
+- [x] `src/components/game/Showcase.tsx` に「価格設定ダイアログ」を追加し、並べる前に価格を決定できるようにする
+- [x] ショーケースのカード表示にカスタム価格（設定価格）を反映させる
