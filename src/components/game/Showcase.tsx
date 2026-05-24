@@ -99,7 +99,10 @@ export function Showcase() {
       }
     }
 
-    const fixedCost = 8000; // 1日あたりの家賃・光熱費をアップ
+    // 1日あたりの家賃・光熱費（7日経過するごとに2000円ずつ増額して難易度を上げる）
+    const baseFixedCost = 8000;
+    const additionalCost = Math.floor((day - 1) / 7) * 2000;
+    const fixedCost = baseFixedCost + additionalCost;
 
     addFunds(totalRevenue - fixedCost);
     addFollowers(totalFollowersGained);
