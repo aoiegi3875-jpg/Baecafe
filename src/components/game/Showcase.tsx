@@ -110,8 +110,10 @@ export function Showcase() {
     // Event Check
     let triggeredEvent: {title: string, desc: string} | null = null;
     
+    // 炎上ゲージ（flameGauge）が高いほど発生確率が上がる仕様に変更
+    // メニューのヤバさ（最大30%）＋ これまでの炎上ゲージ（最大50%）
     if (maxRisk > 40) {
-      const chance = (maxRisk - 30) / 100;
+      const chance = ((maxRisk - 40) / 200) + (flameGauge / 200);
       if (Math.random() < chance) {
         triggeredEvent = {
           title: '🔥 メニュー大炎上！',
@@ -161,21 +163,22 @@ export function Showcase() {
     if (choice === 'apologize') {
       const lost = Math.floor(followers * 0.1);
       addFollowers(-lost);
-      toast.info(`謝罪文を掲載しました。フォロワーが${lost}人減りました。`);
+      increaseFlameGauge(-30);
+      toast.info(`誠心誠意謝罪しました。フォロワーが${lost}人減りましたが、炎上は少し落ち着きました。`);
     } else if (choice === 'bribe') {
       addFunds(-100000);
-      increaseFlameGauge(-20);
-      toast.warning('10万円でインフルエンサーにもみ消しを依頼しました。炎上が少し鎮まりました。');
+      increaseFlameGauge(-50);
+      toast.warning('10万円でインフルエンサーにもみ消しを依頼しました。炎上がかなり鎮まりました。');
     } else if (choice === 'provoke') {
       if (Math.random() > 0.5) {
         const gained = Math.floor(followers * 0.5) + 100;
         addFollowers(gained);
-        increaseFlameGauge(10);
-        toast.success(`逆ギレが大ウケ！逆に話題になりフォロワーが${gained}人増えました！`);
+        increaseFlameGauge(-10);
+        toast.success(`逆ギレが大ウケ！逆に話題になりフォロワーが${gained}人増え、炎上も鎮まりました！`);
       } else {
         const lost = Math.floor(followers * 0.3);
         addFollowers(-lost);
-        increaseFlameGauge(40);
+        increaseFlameGauge(50);
         toast.error(`大炎上！批判が殺到し、フォロワーが${lost}人減少、炎上ゲージが急増しました！`);
       }
     }
