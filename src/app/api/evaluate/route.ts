@@ -88,7 +88,7 @@ export async function POST(req: Request) {
     
     // API制限などでエラーになった場合は進行不能を防ぐためにモックデータを返す
     const mockData = {
-      menu_name: `【AI限界】${base}のヤバいアレンジ`,
+      menu_name: `【AI限界】謎のヤバいアレンジ`,
       score_bae: Math.floor(Math.random() * 40) + 60,
       score_risk: Math.floor(Math.random() * 50) + 30,
       risk_reason: "AI制限中により自動生成されたリスクです",
