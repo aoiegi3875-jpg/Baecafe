@@ -30,8 +30,7 @@ export function Showcase() {
 
   const trendName = dailyTrend ? (dailyTrend.type === 'base' ? BASES[dailyTrend.id]?.name : INGREDIENTS[dailyTrend.id]?.name) : 'なし';
 
-  const [isEventOpen, setIsEventOpen] = useState(false);
-  const [eventMenuName, setEventMenuName] = useState('');
+  const [activeEvent, setActiveEvent] = useState<{title: string, desc: string} | null>(null);
   const [priceMenuToSet, setPriceMenuToSet] = useState<Menu | null>(null);
   const [customPrice, setCustomPrice] = useState<number>(0);
   
@@ -90,12 +89,30 @@ export function Showcase() {
     });
 
     // Event Check
-    let eventTriggered = false;
+    let triggeredEvent: {title: string, desc: string} | null = null;
+    
     if (maxRisk > 40) {
       const chance = (maxRisk - 30) / 100;
       if (Math.random() < chance) {
-        eventTriggered = true;
-        setEventMenuName(maxRiskMenu?.name || '不明なメニュー');
+        triggeredEvent = {
+          title: '🔥 メニュー大炎上！',
+          desc: `「${maxRiskMenu?.name || '不明なメニュー'}」がSNSで物議を醸しています！至急、対応方針を決定してください。`
+        };
+      }
+    }
+
+    // 悪質客・バイトテロのランダム発生 (炎上イベントが起きていない場合で、約8%の確率で発生)
+    if (!triggeredEvent && Math.random() < 0.08) {
+      if (Math.random() > 0.5) {
+        triggeredEvent = {
+          title: '🚨 迷惑客トラブル！',
+          desc: 'お客さんが店内の備品（醤油差しなど）を舐め回す動画をSNSにアップロードしました！動画は瞬く間に拡散されています。どう対応しますか？'
+        };
+      } else {
+        triggeredEvent = {
+          title: '📱 バイトテロ発覚！',
+          desc: '店のアルバイトスタッフが厨房の冷蔵庫に入る動画（通称バイトテロ）が流出しました！批判が殺到しています！'
+        };
       }
     }
 
@@ -110,8 +127,8 @@ export function Showcase() {
     
     setDailyReport({ revenue: totalRevenue, followers: totalFollowersGained, fixedCost });
 
-    if (eventTriggered) {
-      setIsEventOpen(true);
+    if (triggeredEvent) {
+      setActiveEvent(triggeredEvent);
     } else {
       setIsReportOpen(true);
       advanceDay();
@@ -119,7 +136,7 @@ export function Showcase() {
   };
 
   const handleEventChoice = (choice: 'apologize' | 'bribe' | 'provoke') => {
-    setIsEventOpen(false);
+    setActiveEvent(null);
     
     if (choice === 'apologize') {
       const lost = Math.floor(followers * 0.1);
@@ -341,14 +358,14 @@ export function Showcase() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={isEventOpen} onOpenChange={setIsEventOpen}>
+      <Dialog open={!!activeEvent} onOpenChange={(open) => !open && setActiveEvent(null)}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-red-600 flex items-center gap-2 text-2xl">
-              <span className="text-3xl animate-bounce">🔥</span> 炎上イベント発生！
+              <span className="text-3xl animate-bounce">🔥</span> {activeEvent?.title}
             </DialogTitle>
             <DialogDescription className="text-base font-medium text-zinc-800 pt-2">
-              「{eventMenuName}」がSNSで物議を醸しています！至急、対応方針を決定してください。
+              {activeEvent?.desc}
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3 py-4">
