@@ -26,10 +26,21 @@ export const BASES: Record<string, ItemInfo> = {
 export const INGREDIENTS: Record<string, ItemInfo> = {
   // --- 一般的な具材（デザート系） ---
   strawberry: { name: 'イチゴ', emoji: '🍓', unlockCost: 0, devCost: 500 },
+  apple: { name: 'リンゴ', emoji: '🍎', unlockCost: 500, devCost: 100 },
+  orange: { name: 'オレンジ', emoji: '🍊', unlockCost: 500, devCost: 100 },
+  lemon: { name: 'レモン', emoji: '🍋', unlockCost: 500, devCost: 100 },
+  grape: { name: 'ブドウ', emoji: '🍇', unlockCost: 800, devCost: 150 },
+  kiwi: { name: 'キウイ', emoji: '🥝', unlockCost: 1000, devCost: 150 },
+  blueberry: { name: 'ブルーベリー', emoji: '🫐', unlockCost: 1000, devCost: 150 },
+  banana: { name: 'バナナ', emoji: '🍌', unlockCost: 1000, devCost: 300 },
+  watermelon: { name: 'スイカ', emoji: '🍉', unlockCost: 1500, devCost: 200 },
+  pineapple: { name: 'パイナップル', emoji: '🍍', unlockCost: 1500, devCost: 200 },
+  cherry: { name: 'さくらんぼ', emoji: '🍒', unlockCost: 1500, devCost: 400 },
+  peach: { name: '桃', emoji: '🍑', unlockCost: 2000, devCost: 300 },
+  mango: { name: 'マンゴー', emoji: '🥭', unlockCost: 2500, devCost: 300 },
+  melon: { name: 'メロン', emoji: '🍈', unlockCost: 3000, devCost: 400 },
   cream: { name: '生クリーム', emoji: '🥛', unlockCost: 0, devCost: 300 },
   chocolate: { name: 'チョコレート', emoji: '🍫', unlockCost: 0, devCost: 400 },
-  banana: { name: 'バナナ', emoji: '🍌', unlockCost: 1000, devCost: 300 },
-  cherry: { name: 'さくらんぼ', emoji: '🍒', unlockCost: 1500, devCost: 400 },
   caramel: { name: 'キャラメルソース', emoji: '🍯', unlockCost: 2000, devCost: 300 },
   matcha: { name: '抹茶パウダー', emoji: '🍵', unlockCost: 3000, devCost: 500 },
   
