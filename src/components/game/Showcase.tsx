@@ -34,7 +34,13 @@ export function Showcase() {
   const [priceMenuToSet, setPriceMenuToSet] = useState<Menu | null>(null);
   const [customPrice, setCustomPrice] = useState<number>(0);
   
-  const [dailyReport, setDailyReport] = useState<{revenue: number, followers: number, fixedCost: number, comments: {text: string, isPositive: boolean}[]} | null>(null);
+  const [dailyReport, setDailyReport] = useState<{
+    revenue: number, 
+    followers: number, 
+    fixedCost: number, 
+    comments: {text: string, isPositive: boolean}[],
+    salesDetails: {name: string, units: number, revenue: number}[]
+  } | null>(null);
   const [isReportOpen, setIsReportOpen] = useState(false);
 
   const availableMenus = gallery.filter(m => !activeMenus.some(am => am.menu.id === m.id));
@@ -50,6 +56,7 @@ export function Showcase() {
     let maxRisk = 0;
     let maxRiskMenu: Menu | null = null;
     const generatedComments: {text: string, isPositive: boolean}[] = [];
+    const salesDetails: {name: string, units: number, revenue: number}[] = [];
 
     const baseTraffic = Math.max(3, Math.floor(followers * 0.005) + 2);
 
@@ -105,6 +112,8 @@ export function Showcase() {
           generatedComments.push({ text: `「${am.menu.name}」食べてきた！いい感じ👍`, isPositive: true });
         }
       }
+      
+      salesDetails.push({ name: am.menu.name, units: unitsSold, revenue: unitsSold * currentPrice });
     });
 
     // Event Check
@@ -147,7 +156,7 @@ export function Showcase() {
     increaseFlameGauge(Math.floor(maxRisk * 0.1));
     
     const shuffledComments = generatedComments.sort(() => 0.5 - Math.random()).slice(0, 3);
-    setDailyReport({ revenue: totalRevenue, followers: totalFollowersGained, fixedCost, comments: shuffledComments });
+    setDailyReport({ revenue: totalRevenue, followers: totalFollowersGained, fixedCost, comments: shuffledComments, salesDetails });
 
     if (triggeredEvent) {
       setActiveEvent(triggeredEvent);
@@ -423,6 +432,20 @@ export function Showcase() {
               <div className="absolute -bottom-3 right-4 bg-red-100 px-3 py-1 rounded-full border border-red-200">
                 <p className="text-xs text-red-700 font-bold">固定費 (家賃等): -¥{dailyReport?.fixedCost.toLocaleString()}</p>
               </div>
+
+              {dailyReport?.salesDetails && (
+                <div className="mt-6 border-t border-yellow-200 pt-3">
+                  <p className="text-xs font-bold text-yellow-800 mb-2">【売上内訳】</p>
+                  <div className="space-y-1">
+                    {dailyReport.salesDetails.map((s, i) => (
+                      <div key={i} className="flex justify-between text-xs text-yellow-900">
+                        <span className="truncate max-w-[150px]">{s.name}</span>
+                        <span>{s.units}個 / ¥{s.revenue.toLocaleString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
             <div className="bg-green-50 p-4 rounded-xl border border-green-100">
               <p className="text-sm text-green-800 font-bold mb-1">新規フォロワー</p>
