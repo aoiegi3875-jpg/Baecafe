@@ -34,7 +34,7 @@ export function Showcase() {
   const [priceMenuToSet, setPriceMenuToSet] = useState<Menu | null>(null);
   const [customPrice, setCustomPrice] = useState<number>(0);
   
-  const [dailyReport, setDailyReport] = useState<{revenue: number, followers: number, fixedCost: number} | null>(null);
+  const [dailyReport, setDailyReport] = useState<{revenue: number, followers: number, fixedCost: number, comments: {text: string, isPositive: boolean}[]} | null>(null);
   const [isReportOpen, setIsReportOpen] = useState(false);
 
   const availableMenus = gallery.filter(m => !activeMenus.some(am => am.menu.id === m.id));
@@ -47,8 +47,9 @@ export function Showcase() {
 
     let totalRevenue = 0;
     let totalFollowersGained = 0;
-    let maxRiskMenu: Menu | null = null;
     let maxRisk = 0;
+    let maxRiskMenu: Menu | null = null;
+    const generatedComments: {text: string, isPositive: boolean}[] = [];
 
     const baseTraffic = Math.max(3, Math.floor(followers * 0.005) + 2);
 
@@ -85,6 +86,24 @@ export function Showcase() {
       if (currentRisk > maxRisk) {
         maxRisk = currentRisk;
         maxRiskMenu = am.menu;
+      }
+
+      if (unitsSold > 0 && Math.random() > 0.4) {
+        if (priceRatio < 0.8) {
+          generatedComments.push({ text: `「${am.menu.name}」安すぎて神！毎日通うわ`, isPositive: true });
+        } else if (priceRatio > 1.3) {
+          generatedComments.push({ text: `「${am.menu.name}」高すぎワロタ。映え代だとしてもぼったくりでしょ…`, isPositive: false });
+        } else if (am.menu.visualScore > 80) {
+          generatedComments.push({ text: `「${am.menu.name}」写真撮りまくった！超絶可愛い！`, isPositive: true });
+        } else if (am.menu.flameRisk > 60) {
+          generatedComments.push({ text: `「${am.menu.name}」これ絶対お腹壊すやつだろ…食べ物で遊ぶな💢`, isPositive: false });
+        } else if (am.menu.tasteScore > 70) {
+          generatedComments.push({ text: `「${am.menu.name}」見た目だけかと思ったら普通にめっちゃ美味しい！`, isPositive: true });
+        } else if (am.menu.tasteScore < 30) {
+          generatedComments.push({ text: `「${am.menu.name}」味は…ノーコメントで。写真だけ撮って残しちゃった`, isPositive: false });
+        } else {
+          generatedComments.push({ text: `「${am.menu.name}」食べてきた！いい感じ👍`, isPositive: true });
+        }
       }
     });
 
@@ -125,7 +144,8 @@ export function Showcase() {
     addFollowers(totalFollowersGained);
     increaseFlameGauge(Math.floor(maxRisk * 0.1));
     
-    setDailyReport({ revenue: totalRevenue, followers: totalFollowersGained, fixedCost });
+    const shuffledComments = generatedComments.sort(() => 0.5 - Math.random()).slice(0, 3);
+    setDailyReport({ revenue: totalRevenue, followers: totalFollowersGained, fixedCost, comments: shuffledComments });
 
     if (triggeredEvent) {
       setActiveEvent(triggeredEvent);
@@ -400,6 +420,18 @@ export function Showcase() {
               <p className="text-sm text-green-800 font-bold mb-1">新規フォロワー</p>
               <p className="text-3xl font-black text-green-600">+{dailyReport?.followers.toLocaleString()}人</p>
             </div>
+            
+            {dailyReport?.comments && dailyReport.comments.length > 0 && (
+              <div className="text-left mt-4 space-y-2">
+                <p className="text-sm font-bold text-zinc-500 mb-2">SNSの反応</p>
+                {dailyReport.comments.map((c, i) => (
+                  <div key={i} className="bg-white p-3 rounded-lg border border-zinc-200 shadow-sm text-sm">
+                    <span className="mr-2">{c.isPositive ? '😍' : '🤬'}</span>
+                    <span className="text-zinc-700">{c.text}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <DialogFooter className="sm:justify-center">
             <Button size="lg" onClick={closeReport} className="w-full font-bold text-lg">次の日へ</Button>
