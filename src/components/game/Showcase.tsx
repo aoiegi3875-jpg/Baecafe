@@ -190,6 +190,11 @@ export function Showcase() {
   const closeReport = () => {
     setIsReportOpen(false);
     setDailyReport(null);
+    
+    // 次の日（現在）が固定費増額のタイミング（8, 15, 22...日目）であれば通知
+    if (day % 7 === 1 && day > 1) {
+      toast.warning('【難易度アップ】事業拡大により、本日から固定費（家賃・光熱費）が ¥2,000 増額されました！', { duration: 5000 });
+    }
   };
 
   return (
