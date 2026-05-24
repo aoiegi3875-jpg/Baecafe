@@ -4,6 +4,7 @@ export interface ItemInfo {
   unlockCost: number;
   devCost: number;
   imageUrl?: string; // 今後画像を入れるためのプロパティ
+  requiredBase?: string; // このトッピングをショップに並べるために必要なベース料理ID
 }
 
 export const BASES: Record<string, ItemInfo> = {
@@ -27,23 +28,23 @@ export const INGREDIENTS: Record<string, ItemInfo> = {
   matcha: { name: '抹茶パウダー', emoji: '🍵', unlockCost: 3000, devCost: 500 },
   
   // --- 一般的な具材（バーガー・軽食系） ---
-  lettuce: { name: 'レタス', emoji: '🥬', unlockCost: 1000, devCost: 100 },
-  tomato: { name: 'トマト', emoji: '🍅', unlockCost: 1500, devCost: 200 },
-  onion: { name: 'オニオン', emoji: '🧅', unlockCost: 1500, devCost: 100 },
-  pickles: { name: 'ピクルス', emoji: '🥒', unlockCost: 2000, devCost: 100 },
-  egg: { name: '目玉焼き', emoji: '🍳', unlockCost: 4000, devCost: 400 },
-  bacon: { name: 'ベーコン', emoji: '🥓', unlockCost: 6000, devCost: 600 },
-  cheese: { name: 'とろけるチーズ', emoji: '🧀', unlockCost: 8000, devCost: 500 },
-  extra_patty: { name: '追加パティ', emoji: '🥩', unlockCost: 10000, devCost: 1000 },
+  lettuce: { name: 'レタス', emoji: '🥬', unlockCost: 1000, devCost: 100, requiredBase: 'burger' },
+  tomato: { name: 'トマト', emoji: '🍅', unlockCost: 1500, devCost: 200, requiredBase: 'burger' },
+  onion: { name: 'オニオン', emoji: '🧅', unlockCost: 1500, devCost: 100, requiredBase: 'burger' },
+  pickles: { name: 'ピクルス', emoji: '🥒', unlockCost: 2000, devCost: 100, requiredBase: 'burger' },
+  egg: { name: '目玉焼き', emoji: '🍳', unlockCost: 4000, devCost: 400, requiredBase: 'burger' },
+  bacon: { name: 'ベーコン', emoji: '🥓', unlockCost: 6000, devCost: 600, requiredBase: 'burger' },
+  cheese: { name: 'とろけるチーズ', emoji: '🧀', unlockCost: 8000, devCost: 500, requiredBase: 'burger' },
+  extra_patty: { name: '追加パティ', emoji: '🥩', unlockCost: 10000, devCost: 1000, requiredBase: 'burger' },
 
   // --- 一般的な具材（ラーメン系） ---
-  green_onion: { name: 'ネギ', emoji: '🧅', unlockCost: 1000, devCost: 100 },
-  bean_sprouts: { name: 'もやし', emoji: '🥗', unlockCost: 1000, devCost: 100 },
-  menma: { name: 'メンマ', emoji: '🎋', unlockCost: 2000, devCost: 200 },
-  naruto: { name: 'なると', emoji: '🍥', unlockCost: 2000, devCost: 200 },
-  nori: { name: '海苔', emoji: '⬛', unlockCost: 3000, devCost: 100 },
-  ajitama: { name: '味玉', emoji: '🥚', unlockCost: 4000, devCost: 300 },
-  chashu: { name: 'チャーシュー', emoji: '🍖', unlockCost: 8000, devCost: 800 },
+  green_onion: { name: 'ネギ', emoji: '🧅', unlockCost: 1000, devCost: 100, requiredBase: 'ramen' },
+  bean_sprouts: { name: 'もやし', emoji: '🥗', unlockCost: 1000, devCost: 100, requiredBase: 'ramen' },
+  menma: { name: 'メンマ', emoji: '🎋', unlockCost: 2000, devCost: 200, requiredBase: 'ramen' },
+  naruto: { name: 'なると', emoji: '🍥', unlockCost: 2000, devCost: 200, requiredBase: 'ramen' },
+  nori: { name: '海苔', emoji: '⬛', unlockCost: 3000, devCost: 100, requiredBase: 'ramen' },
+  ajitama: { name: '味玉', emoji: '🥚', unlockCost: 4000, devCost: 300, requiredBase: 'ramen' },
+  chashu: { name: 'チャーシュー', emoji: '🍖', unlockCost: 8000, devCost: 800, requiredBase: 'ramen' },
   
   // --- 奇抜な具材（炎上リスク・バズ狙い） ---
   tabasco: { name: 'タバスコ', emoji: '🌶️', unlockCost: 12000, devCost: 800 },

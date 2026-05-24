@@ -93,6 +93,7 @@ export function Shop() {
         <h3 className="text-xl font-bold mb-4">特殊具材の仕入れ</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {Object.entries(INGREDIENTS).map(([id, info]) => {
+            if (info.requiredBase && !unlockedBases.includes(info.requiredBase)) return null;
             const isUnlocked = unlockedIngredients.includes(id);
             if (info.unlockCost === 0) return null;
             const isTrending = dailyTrend?.type === 'ingredient' && dailyTrend?.id === id;
