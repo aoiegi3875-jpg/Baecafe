@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
 export function Shop() {
-  const { funds, unlockedBases, unlockedIngredients, unlockBase, unlockIngredient } = useGameStore();
+  const { funds, unlockedBases, unlockedIngredients, unlockBase, unlockIngredient, dailyTrend } = useGameStore();
 
   const handleUnlockBase = (id: string, cost: number) => {
     if (funds < cost) {
@@ -46,9 +46,23 @@ export function Shop() {
           {Object.entries(BASES).map(([id, info]) => {
             const isUnlocked = unlockedBases.includes(id);
             if (info.unlockCost === 0) return null; // Default unlocked
+            const isTrending = dailyTrend?.type === 'base' && dailyTrend?.id === id;
+            const canAfford = funds >= info.unlockCost;
+            const isRecommended = isTrending && !isUnlocked && canAfford;
+
             return (
-              <Card key={id} className={`overflow-hidden transition-all ${isUnlocked ? 'opacity-50 grayscale bg-zinc-50' : 'bg-white hover:border-primary hover:shadow-md'}`}>
-                <CardHeader className="p-4 pb-2 text-center">
+              <Card key={id} className={`relative overflow-hidden transition-all ${isUnlocked ? 'opacity-50 grayscale bg-zinc-50' : 'bg-white hover:border-primary hover:shadow-md'} ${isRecommended ? 'border-2 border-blue-500 shadow-blue-200 shadow-lg' : ''}`}>
+                {isRecommended && (
+                  <div className="absolute top-0 left-0 w-full bg-blue-600 text-white text-xs font-bold text-center py-1 animate-pulse z-10">
+                    ✨ トレンドのおすすめ！
+                  </div>
+                )}
+                {isTrending && !isRecommended && (
+                  <div className="absolute top-2 right-2 bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-blue-200 z-10">
+                    トレンド
+                  </div>
+                )}
+                <CardHeader className={`p-4 pb-2 text-center ${isRecommended ? 'pt-8' : ''}`}>
                   {info.imageUrl ? (
                     <div className="h-16 w-16 mx-auto mb-2"><img src={info.imageUrl} className="w-full h-full object-cover rounded" /></div>
                   ) : (
@@ -81,9 +95,23 @@ export function Shop() {
           {Object.entries(INGREDIENTS).map(([id, info]) => {
             const isUnlocked = unlockedIngredients.includes(id);
             if (info.unlockCost === 0) return null;
+            const isTrending = dailyTrend?.type === 'ingredient' && dailyTrend?.id === id;
+            const canAfford = funds >= info.unlockCost;
+            const isRecommended = isTrending && !isUnlocked && canAfford;
+
             return (
-              <Card key={id} className={`overflow-hidden transition-all ${isUnlocked ? 'opacity-50 grayscale bg-zinc-50' : 'bg-white hover:border-primary hover:shadow-md'}`}>
-                <CardHeader className="p-4 pb-2 text-center">
+              <Card key={id} className={`relative overflow-hidden transition-all ${isUnlocked ? 'opacity-50 grayscale bg-zinc-50' : 'bg-white hover:border-primary hover:shadow-md'} ${isRecommended ? 'border-2 border-blue-500 shadow-blue-200 shadow-lg' : ''}`}>
+                {isRecommended && (
+                  <div className="absolute top-0 left-0 w-full bg-blue-600 text-white text-xs font-bold text-center py-1 animate-pulse z-10">
+                    ✨ トレンドのおすすめ！
+                  </div>
+                )}
+                {isTrending && !isRecommended && (
+                  <div className="absolute top-2 right-2 bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-blue-200 z-10">
+                    トレンド
+                  </div>
+                )}
+                <CardHeader className={`p-4 pb-2 text-center ${isRecommended ? 'pt-8' : ''}`}>
                   {info.imageUrl ? (
                     <div className="h-16 w-16 mx-auto mb-2"><img src={info.imageUrl} className="w-full h-full object-cover rounded" /></div>
                   ) : (
