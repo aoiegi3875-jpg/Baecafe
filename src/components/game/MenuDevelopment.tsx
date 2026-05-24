@@ -14,8 +14,11 @@ import { toast } from 'sonner';
 export function MenuDevelopment() {
   const { 
     unlockedBases, unlockedIngredients, addMenuToGallery, funds, addFunds, day,
-    isGeneratingMenu, setIsGeneratingMenu, latestGeneratedMenu, setLatestGeneratedMenu
+    isGeneratingMenu, setIsGeneratingMenu, latestGeneratedMenu, setLatestGeneratedMenu,
+    dailyTrend
   } = useGameStore();
+  
+  const trendName = dailyTrend ? (dailyTrend.type === 'base' ? BASES[dailyTrend.id]?.name : INGREDIENTS[dailyTrend.id]?.name) : 'なし';
   
   const [selectedBase, setSelectedBase] = useState<string>(unlockedBases[0] || '');
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
@@ -115,6 +118,12 @@ export function MenuDevelopment() {
             新メニュー開発
           </h2>
           <p className="text-zinc-500">ベース料理と具材を選んで、AIシェフに新しいメニューを考案してもらいましょう。</p>
+          {dailyTrend && (
+            <div className="mt-2 inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 font-bold rounded-lg border border-blue-200">
+              <span>📈 今日のトレンド:</span>
+              <span className="text-lg">{trendName}</span>
+            </div>
+          )}
         </div>
       </div>
 
