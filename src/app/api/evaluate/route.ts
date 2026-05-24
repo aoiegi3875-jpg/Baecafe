@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.5-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
@@ -84,10 +84,20 @@ export async function POST(req: Request) {
       price: calculatedPrice
     });
   } catch (error: any) {
-    console.error('Error in evaluate route:', error);
-    return NextResponse.json(
-      { error: 'Failed to evaluate menu', details: error.message },
-      { status: 500 }
-    );
+    console.error('Error in evaluate route, using mock fallback:', error);
+    
+    // API制限などでエラーになった場合は進行不能を防ぐためにモックデータを返す
+    const mockData = {
+      menu_name: `【AI限界】${base}のヤバいアレンジ`,
+      score_bae: Math.floor(Math.random() * 40) + 60,
+      score_risk: Math.floor(Math.random() * 50) + 30,
+      risk_reason: "AI制限中により自動生成されたリスクです",
+      score_taste: Math.floor(Math.random() * 50) + 30,
+      taste_review: "（通信制限中につき、AIシェフはお休みしています...）",
+      image_prompt: "A crazy and weird cafe food item, high quality food photography",
+      price: Math.floor(Math.random() * 1000) + 1000
+    };
+
+    return NextResponse.json(mockData);
   }
 }
